@@ -1,17 +1,29 @@
 <div class="panel panel-default">
+  <div class="panel-heading">
+    <%= question.title %>
+  </div>
   <% if message.finished != 1 %>
-    <div class="panel-heading">
-      <%= question.title %>
-    </div>
     <div class="list-group">
       <%= link_to( question.a_1, messages_path(question_id: question.id, answer: 1, message_id: message.id), method: :post, class: 'list-group-item', remote: true) %>
       <%= link_to( question.a_2, messages_path(question_id: question.id, answer: 2, message_id: message.id), method: :post, class: 'list-group-item', remote: true) %>
       <%= link_to( question.a_3, messages_path(question_id: question.id, answer: 3, message_id: message.id), method: :post, class: 'list-group-item', remote: true) %>
       <%= link_to( question.a_4, messages_path(question_id: question.id, answer: 4, message_id: message.id), method: :post, class: 'list-group-item', remote: true) %>
     </div>
+    <% if logged_in?  %>
+      <div class="comment-menu panel-body text-right">
+        <%= link_to '変更', edit_question_path(question) %>
+        <%= link_to '消去', question, method: :delete, data: { confirm: 'ほんとうに削除しますか？' } %>
+      </div>
+    <% end %>
   <% else %>
     <div class="panel-body">
       <p>回答済みのクイズです</p>
+      <% if logged_in?  %>
+        <div class="comment-menu text-right">
+          <%= link_to '変更', edit_question_path(question) %>
+          <%= link_to '消去', question, method: :delete, data: { confirm: 'ほんとうに削除しますか？' } %>
+        </div>
+      <% end %>
     </div>
   <% end %>
 </div>
